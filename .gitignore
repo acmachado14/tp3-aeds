@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+.exe
+quicksort.c
+quicksortInsercao.c
+quicksortInterativo.c
+quickSortMediana3.c
+exec.txt
+.vscode
