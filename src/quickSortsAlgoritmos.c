@@ -274,15 +274,17 @@ void geraMediana(int Vnumero[], int k, int inicio, int fim){
 
 
 //-----Função para encontrar mediana com k=3-----//
-int PivoMediana(int n1, int n2,int n3)
+int PivoMediana(int n1, int n2,int n3, int *copias, int *comparacoes)
 {
     int a=n1,b=n2,c=n3;
     int mediana;
     //array sequência de if...else verifica qual valor é menor que um e maior que outro
     if (a<b){
+        (*comparacoes) ++;
         if (b<c) //a < b && b < c
             mediana=b;
         else{
+            (*comparacoes) ++;
             if (a<c) //a < c && c <= b
                 mediana=c;
             else //c <= a && a < b
@@ -329,10 +331,10 @@ int PivoMediana5(int *array, int inicio,int fim)
     return med;
 }
 
-void ParticaoMED(int Esq, int Dir,int *i,int *j, int *array,int p)
+void ParticaoMED(int inicio, int fim,int *i,int *j, int *array,int p)
 {
     int pivo,aux;
-    *i=Esq,*j=Dir;
+    *i=inicio,*j=fim;
     pivo=p;
     do{
         while(pivo>array[*i])
@@ -350,26 +352,26 @@ void ParticaoMED(int Esq, int Dir,int *i,int *j, int *array,int p)
     while(*i<=*j);
 }
 
-void MedianaDeTres(int Esq, int Dir,int *array)
+void MedianaDeTres(int inicio, int fim,int *array)
 {
-    int i,j,meio=Dir/2;
-    int p=PivoMediana(array[Esq],array[meio],array[Dir]);
-    ParticaoMED(Esq,Dir,&i,&j,array,p);
-    if(Esq<j)
-        MedianaDeTres(Esq,j,array);
-    if(i<Dir)
-        MedianaDeTres(i,Dir,array);
+    int i,j,meio=fim/2;
+    int p=PivoMediana(array[inicio],array[meio],array[fim]);
+    ParticaoMED(inicio,fim,&i,&j,array,p);
+    if(inicio<j)
+        MedianaDeTres(inicio,j,array);
+    if(i<fim)
+        MedianaDeTres(i,fim,array);
 }
 
-void MedianaDeCinco(int Esq, int Dir,int *array)
+void MedianaDeCinco(int inicio, int fim,int *array)
 {
     int i,j;
-    int p=PivoMediana5(array,Esq,Dir);
-    ParticaoMED(Esq,Dir,&i,&j,array,p);
-    if(Esq<j){
-        MedianaDeTres(Esq,j,array);
+    int p=PivoMediana5(array,inicio,fim);
+    ParticaoMED(inicio,fim,&i,&j,array,p);
+    if(inicio<j){
+        MedianaDeTres(inicio,j,array);
     }
-    if(i<Dir){
-        MedianaDeTres(i,Dir,array);
+    if(i<fim){
+        MedianaDeTres(i,fim,array);
     }
 }
