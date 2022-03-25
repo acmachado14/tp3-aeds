@@ -10,7 +10,7 @@ void swap(int* a, int* b)
     *b = t;
 }
 
-void quicksortRecursivo( int array[], int start, int end )
+void quicksortRecursivo( int array[], int start, int end, int *copias, int *comparacoes)
 {
     if( start < end ){
         int l = start + 1;
@@ -18,22 +18,31 @@ void quicksortRecursivo( int array[], int start, int end )
         int p = array[start];
         while( l < r ){
             if( array[l] <= p ){
+                (*comparacoes)++;
                 l++;
             }else if( array[r] >= p ){
+                (*comparacoes) +=2 ;
                 r--;
             }else{
                 swap( &array[l], &array[r] );
+                (*copias) += 3;
+                (*comparacoes) +=2;
             }
+            (*comparacoes)++;
         }
         if( array[l] < p ){
             swap( &array[l], &array[start] );
+            (*copias) += 3;
             l--;
         }else{
             l--;
             swap( &array[l], &array[start] );
+            (*copias) += 3;
         }
-        quicksortRecursivo( array, start, l );
-        quicksortRecursivo( array, r, end );
+        (*comparacoes)++;
+
+        quicksortRecursivo( array, start, l , copias, comparacoes);
+        quicksortRecursivo( array, r, end , copias, comparacoes);
     }
 }
 
@@ -47,7 +56,7 @@ void exibir( int array[], int tam )
     puts("----------------------------------------------------------------------------------");
 }
 
-int partition(int array[], int l, int h)
+int partition(int array[], int l, int h, int *copias, int *comparacoes)
 {
     int x = array[h];
     int i = (l - 1);
@@ -56,14 +65,17 @@ int partition(int array[], int l, int h)
         if (array[j] <= x) {
             i++;
             swap(&array[i], &array[j]);
+            (*copias) += 3;
         }
+        (*comparacoes)++;
     }
     swap(&array[i + 1], &array[h]);
+    (*copias) += 3;
     return (i + 1);
 }
 
 
-void quickSortIterative(int array[], int l, int h)
+void quickSortIterative(int array[], int l, int h, int *copias, int *comparacoes)
 {
     int k = h - l + 1;
     int stack[k];
@@ -77,7 +89,7 @@ void quickSortIterative(int array[], int l, int h)
         h = stack[top--];
         l = stack[top--];
 
-        int p = partition(array, l, h);
+        int p = partition(array, l, h, copias, comparacoes);
 
         if (p - 1 > l) {
             stack[++top] = l;
@@ -87,12 +99,14 @@ void quickSortIterative(int array[], int l, int h)
             stack[++top] = p + 1;
             stack[++top] = h;
         }
+
+        (*comparacoes) += 3;
     }
 }
 
 
 
-void insertionSort(int array[], int low, int n)
+void insertionSort(int array[], int low, int n, int *copias, int *comparacoes)
 {
     for(int i=low+1;i<n+1;i++){
         int val = array[i] ;
@@ -100,138 +114,140 @@ void insertionSort(int array[], int low, int n)
         while (j>low && array[j-1]>val){
             array[j]= array[j-1] ;
             j-= 1;
+            (*comparacoes)++;
+            (*copias)++;
         }
         array[j]= val ;
     }
 }
 
 
-void quickSortInsertion10(int array[], int low, int high)
+void quickSortInsertion10(int array[], int low, int high, int *copias, int *comparacoes)
 {
     while (low < high){
         if (high-low + 1 < 10){
-            insertionSort(array, low, high);
+            insertionSort(array, low, high, copias, comparacoes);
+            (*comparacoes)++;
             break;
         }else{
-            int pivot = partition(array, low, high) ;
+            int pivot = partition(array, low, high, copias, comparacoes);
 
             if (pivot-low<high-pivot){
-                quickSortInsertion10(array, low, pivot - 1);
+                quickSortInsertion10(array, low, pivot - 1, copias, comparacoes);
                 low = pivot + 1;
-            }
-            else{
-                quickSortInsertion10(array, pivot + 1, high);
+            }else{
+                quickSortInsertion10(array, pivot + 1, high, copias, comparacoes);
                 high = pivot-1;
             }
+            (*comparacoes) += 2;
         }
+
     }
 }
 
-void quickSortInsertion100(int array[], int low, int high)
+void quickSortInsertion100(int array[], int low, int high, int *copias, int *comparacoes)
 {
     while (low < high){
         if (high-low + 1 < 100){
-            insertionSort(array, low, high);
+            insertionSort(array, low, high, copias, comparacoes);
+            (*comparacoes)++;
             break;
         }else{
-            int pivot = partition(array, low, high) ;
+            int pivot = partition(array, low, high, copias, comparacoes);
 
             if (pivot-low<high-pivot){
-                quickSortInsertion100(array, low, pivot - 1);
+                quickSortInsertion100(array, low, pivot - 1, copias, comparacoes);
                 low = pivot + 1;
             }
             else{
-                quickSortInsertion100(array, pivot + 1, high);
+                quickSortInsertion100(array, pivot + 1, high, copias, comparacoes);
                 high = pivot-1;
             }
+            (*comparacoes) += 2;
         }
     }
 }
 
 
-int partitionDeTres(int array[], int inicio, int fim) {
-    //procura a mediana entre inicio, meio e fim
+int partitionDeTres(int array[], int inicio, int fim, int *copias, int *comparacoes)
+{
     int meio = (inicio + fim) / 2;
     int a = array[inicio];
     int b = array[meio];
     int c = array[fim];
-    int medianaIndice; //índice da mediana
-    //array sequência de if...else a seguir verifica qual é a mediana
+    int medianaIndice;
+
+    (*comparacoes)++;
     if (a < b) {
+        (*comparacoes)++;
         if (b < c) {
-            //a < b && b < c
             medianaIndice = meio;
         } else {
+            (*comparacoes)++;
             if (a < c) {
-                //a < c && c <= b
                 medianaIndice = fim;
             } else {
-                //c <= a && a < b
                 medianaIndice = inicio;
             }
         }
     } else {
+        (*comparacoes)++;
         if (c < b) {
-            //c < b && b <= a
             medianaIndice = meio;
         } else {
+            (*comparacoes)++;
             if (c < a) {
-                //b <= c && c < a
                 medianaIndice = fim;
             } else {
-                //b <= a && a <= c
                 medianaIndice = inicio;
             }
         }
     }
-    //coloca o elemento da mediana no fim para poder usar o Quicksort de Cormen
     swap(&array[medianaIndice], &array[fim]);
+    (*copias) += 3;
 
-    //*******************ALGORITMO DE PARTIÇÃO DE CORMEN*********************
-    //o pivo é o elemento final
     int pivo = array[fim];
     int i = inicio - 1;
     int j;
-    /*
-     * Este laço irá varrer os vetores da esquerda para direira
-     * procurando os elementos que são menores ou iguais ao pivô.
-     * Esses elementos são colocados na partição esquerda.
-     */
+
     for (j = inicio; j <= fim - 1; j++) {
+        (*comparacoes)++;
         if (array[j] <= pivo) {
             i = i + 1;
             swap(&array[i], &array[j]);
+            (*copias) += 3;
         }
     }
-    //coloca o pivô na posição de ordenação
+
     swap(&array[i + 1], &array[fim]);
-    return i + 1; //retorna a posição do pivô
+    (*copias) += 3;
+
+    return i + 1;
 }
 //Quicksort mediana de três
-void quicksortMedianaDeTres(int array[], int inicio, int fim) {
+void quicksortMedianaDeTres(int array[], int inicio, int fim, int *copias, int *comparacoes)
+{
     if (inicio < fim) {
         //realiza a partição
-        int q = partitionDeTres(array, inicio, fim);
-        //ordena a partição esquerda
-        quicksortMedianaDeTres(array, inicio, q - 1);
-        //ordena a partição direita
-        quicksortMedianaDeTres(array, q + 1, fim);
+        int q = partitionDeTres(array, inicio, fim, copias, comparacoes);
+        //ordena a partição inicio
+        quicksortMedianaDeTres(array, inicio, q - 1, copias, comparacoes);
+        //ordena a partição fim
+        quicksortMedianaDeTres(array, q + 1, fim, copias, comparacoes);
     }
 }
 
 
-void quickSortEmpilha(int array[], int low, int high)
+void quickSortEmpilha(int array[], int low, int high, int *copias, int *comparacoes)
 {
 	while (low < high){
-		/* pi is partitioning index, array[p] is now
-		at right place */
-		int pi = partition(array, low, high);
+		int pi = partition(array, low, high, copias, comparacoes);
 
-		// Separately sort elements before
-		// partition and after partition
-		quickSortEmpilha(array, low, pi - 1);
+		quickSortEmpilha(array, low, pi - 1, copias, comparacoes);
 
 		low = pi+1;
+
+        (*comparacoes)++;
 	}
 }
 
@@ -287,29 +303,21 @@ int partitionDeCinco(int array[], int inicio, int fim) {
     puts("------------dadasdasdasda****");
     medianaIndice = indices[2];
 
-    //coloca o elemento da mediana no fim para poder usar o Quicksort de Cormen
-
     swap(&array[medianaIndice], &array[fim]);
 
-    //*******************ALGORITMO DE PARTIÇÃO DE CORMEN*********************
-    //o pivo é o elemento final
     int pivo = array[fim];
     int i = inicio - 1;
     int j;
-    /*
-     * Este laço irá varrer os vetores da esquerda para direira
-     * procurando os elementos que são menores ou iguais ao pivô.
-     * Esses elementos são colocados na partição esquerda.
-     */
+
     for (j = inicio; j <= fim - 1; j++) {
         if (array[j] <= pivo) {
             i = i + 1;
             swap(&array[i], &array[j]);
         }
     }
-    //coloca o pivô na posição de ordenação
+
     swap(&array[i + 1], &array[fim]);
-    return i + 1; //retorna a posição do pivô
+    return i + 1;
 }
 
 
@@ -325,3 +333,66 @@ void quicksortMedianaDeCinco(int array[], int inicio, int fim)
         quicksortMedianaDeCinco(array, q + 1, fim);
     }
 }
+
+void quickSortMedianaTeste(int array[], int inicio, int fim, int *copias, int *comparacoes)
+{
+
+    int Vnumero[5];
+    int mediana;
+    geraMediana(Vnumero,5,inicio,fim);
+
+    int indice0 = Vnumero[0];
+    int indice1 = Vnumero[1];
+    int indice2 = Vnumero[2];
+    int indice3 = Vnumero[3];
+    int indice4 = Vnumero[4];
+
+    int vetor[5] = {array[indice0], array[indice1], array[indice2], array[indice3], array[indice4]};
+    int indices[5] = {indice0, indice1, indice2, indice3, indice4};
+    int aux, auxInd;
+    for (int i = 0; i < 5; i++){
+        for (int j = 0; j < 4; j++){
+            if (vetor[j] > vetor[j + 1]) {
+                aux= vetor[j];
+                vetor[j]= vetor[j + 1];
+                vetor[j + 1] = aux;
+
+                auxInd= indices[j];
+                indices[j]= indices[j + 1];
+                indices[j + 1] = auxInd;
+            }
+        }
+    }
+    puts("------------pint INCIO testes-----------------------\n");
+    exibir(vetor,5);
+    puts("------------pint FIM testes-----------------------\n");
+    mediana = indices[2];
+
+    while (inicio <= fim){
+        while (array[inicio] < array[mediana] && inicio < fim){
+            //(*comparacoes)++;
+            inicio++;
+        }
+
+        while (array[fim] > array[mediana] && fim > inicio){
+            //(*comparacoes)++;
+            fim--;
+        }
+
+        if (inicio <= fim){
+            swap(&array[inicio],&array[fim]);
+            copias++;
+            inicio++;
+            fim--;
+        }
+    }
+
+    if (fim > inicio){
+        quickSortMedianaTeste(array, inicio, fim, copias, comparacoes);
+    }
+
+    if (inicio < fim){
+        quickSortMedianaTeste(array, inicio, fim, copias, comparacoes);
+    }
+}
+//------------------------------------------------------------------------------------

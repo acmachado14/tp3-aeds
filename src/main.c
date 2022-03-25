@@ -30,59 +30,79 @@ int main( int argc, char * argv[] )
 
     clock_t t;
 
-
     randonArray(numeros,tamanho);
     printf("Array Desordenado: \n");
     //exibir( numeros, tamanho );
 
     t = clock();
+    int copias = 0;
+    int comparacoes = 0;
+
     randonArray(numeros,tamanho);
     printf("Array QuickSort: \n");
-    quicksortRecursivo( numeros, 0, tamanho - 1 );
+    quicksortRecursivo( numeros, 0, tamanho - 1, &copias, &comparacoes );
     //exibir( numeros, tamanho );
+    printf("Numero de copias: %d \n", copias);
+    printf("Numero de comparacoes: %d \n", comparacoes);
     tempo(t);
+
+    copias = 0;
+    comparacoes = 0;
 
     t = clock();
     randonArray(numeros,tamanho);
     printf("Array QuickSort Iterativo: \n");
-    quickSortIterative( numeros, 0, tamanho - 1 );
+    quickSortIterative( numeros, 0, tamanho - 1, &copias, &comparacoes);
     //exibir( numeros, tamanho );
+    printf("Numero de copias: %d \n", copias);
+    printf("Numero de comparacoes: %d \n", comparacoes);
     tempo(t);
 
+    copias = 0;
+    comparacoes = 0;
     t = clock();
     randonArray(numeros,tamanho);
     printf("Array QuickSort Insercao 10: \n");
-    quickSortInsertion10( numeros, 0, tamanho - 1 );
+    quickSortInsertion10( numeros, 0, tamanho - 1, &copias, &comparacoes);
     //exibir( numeros, tamanho );
+    printf("Numero de copias: %d \n", copias);
+    printf("Numero de comparacoes: %d \n", comparacoes);
     tempo(t);
+
 
     t = clock();
     randonArray(numeros,tamanho);
     printf("Array QuickSort Insercao 100: \n");
-    quickSortInsertion100( numeros, 0, tamanho - 1 );
+    quickSortInsertion100( numeros, 0, tamanho - 1, &copias, &comparacoes);
     //exibir( numeros, tamanho );
+    printf("Numero de copias: %d \n", copias);
+    printf("Numero de comparacoes: %d \n", comparacoes);
     tempo(t);
 
     t = clock();
     randonArray(numeros,tamanho);
     printf("Array QuickSort Mediana de Tres: \n");
-    quicksortMedianaDeTres( numeros, 0, tamanho - 1 );
-    exibir( numeros, tamanho );
+    quicksortMedianaDeTres( numeros, 0, tamanho - 1, &copias, &comparacoes);
+    //exibir( numeros, tamanho );
+    printf("Numero de copias: %d \n", copias);
+    printf("Numero de comparacoes: %d \n", comparacoes);
     tempo(t);
+
 
     t = clock();
     randonArray(numeros,tamanho);
     printf("Array QuickSort Empilha: \n");
-    quickSortEmpilha( numeros, 0, tamanho - 1 );
+    quickSortEmpilha( numeros, 0, tamanho - 1, &copias, &comparacoes);
     //exibir( numeros, tamanho );
+    printf("Numero de copias: %d \n", copias);
+    printf("Numero de comparacoes: %d \n", comparacoes);
     tempo(t);
 
-    t = clock();
+    /*t = clock();
     randonArray(numeros,tamanho);
-    printf("Array QuickSort Mediana de Cinco: \n");
-    //quicksortMedianaDeCinco( numeros, 0, tamanho - 1 );
-    //exibir( numeros, tamanho );
-    tempo(t);
-
+    printf("Array QuickSort Mediana Teste: \n");
+    quickSortMedianaTeste( numeros, 0, tamanho - 1, 0, 0);
+    exibir( numeros, tamanho );
+    tempo(t);*/
     return 0;
 }
