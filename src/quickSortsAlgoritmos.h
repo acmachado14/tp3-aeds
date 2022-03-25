@@ -41,10 +41,14 @@ void geraMediana(int Vnumero[], int k, int inicio, int fim);
 
 void quickSortMedianaTeste(int array[], int inicio, int fim, int *copias, int *comparacoes);
 
-int PivoMediana5(int *array, int inicio,int fim);
+int PivoMediana(int n1, int n2,int n3);
 
-void ParticaoMED(int inicio, int fim,int *i,int *j, int *array,int p);
+void ParticaoMED(int Esq, int Dir,int *i,int *j, int *A,int p);
 
-void MedianaDeCinco(int *array,int inicio, int fim, int *copias, int *comparacoes);
+int PivoMediana5(int *A, int inicio,int fim);
 
-void quicksortMedianaDeCinco(int array[], int inicio, int fim, int *copias, int *comparacoes,int *i,int *j,int *p);
+//void quicksortMedianaDeCinco(int array[], int inicio, int fim, int *copias, int *comparacoes);
+
+void MedianaDeTres(int Esq, int Dir,int *A);
+
+void MedianaDeCinco(int Esq, int Dir,int *A);

@@ -272,7 +272,39 @@ void geraMediana(int Vnumero[], int k, int inicio, int fim){
     }
 }
 
-int PivoMediana5(int *array, int inicio,int fim){
+
+//-----Função para encontrar mediana com k=3-----//
+int PivoMediana(int n1, int n2,int n3)
+{
+    int a=n1,b=n2,c=n3;
+    int mediana;
+    //array sequência de if...else verifica qual valor é menor que um e maior que outro
+    if (a<b){
+        if (b<c) //a < b && b < c
+            mediana=b;
+        else{
+            if (a<c) //a < c && c <= b
+                mediana=c;
+            else //c <= a && a < b
+                mediana=a;
+        }
+    }
+    else{
+        if (c<b) //c < b && b <= a
+            mediana=b;
+        else {
+            if (c<a) //b <= c && c < a
+                mediana=c;
+            else //b <= a && a <= c
+                mediana=a;
+        }
+    }
+    return mediana;
+}
+
+//-----Função para encontrar mediana com k=5-----//
+int PivoMediana5(int *array, int inicio,int fim)
+{
     int n1=array[inicio], rep=(fim+1)/5;
     int n2=array[inicio+rep],n3=array[inicio+(2*rep)],n4=array[inicio+(3*rep)],n5=array[inicio+(4*rep)];
     int vet_aux[5]={n1,n2,n3,n4,n5};
@@ -297,10 +329,10 @@ int PivoMediana5(int *array, int inicio,int fim){
     return med;
 }
 
-//Função de Partição Mediana
-void ParticaoMED(int inicio, int fim,int *i,int *j, int array[],int p){
+void ParticaoMED(int Esq, int Dir,int *i,int *j, int *array,int p)
+{
     int pivo,aux;
-    *i=inicio,*j=fim;
+    *i=Esq,*j=Dir;
     pivo=p;
     do{
         while(pivo>array[*i])
@@ -316,29 +348,28 @@ void ParticaoMED(int inicio, int fim,int *i,int *j, int array[],int p){
         }
     }
     while(*i<=*j);
-
 }
 
-void quicksortMedianaDeCinco(int array[], int inicio, int fim, int *copias, int *comparacoes,int *i,int *j,int *p)
+void MedianaDeTres(int Esq, int Dir,int *array)
+{
+    int i,j,meio=Dir/2;
+    int p=PivoMediana(array[Esq],array[meio],array[Dir]);
+    ParticaoMED(Esq,Dir,&i,&j,array,p);
+    if(Esq<j)
+        MedianaDeTres(Esq,j,array);
+    if(i<Dir)
+        MedianaDeTres(i,Dir,array);
+}
+
+void MedianaDeCinco(int Esq, int Dir,int *array)
 {
     int i,j;
-    int p=PivoMediana5(array,inicio,fim);
-    //printf("Pivo:%i \n",p);
-    ParticaoMED(inicio,fim,&i,&j,array,p);
-    if(inicio<j)
-        quicksortMedianaDeCinco(array,inicio,j,copias,comparacoes,&i,&j,&p);
-    if(i<fim)
-        quicksortMedianaDeCinco(array,inicio,j,copias,comparacoes,&i,&j,&p);
+    int p=PivoMediana5(array,Esq,Dir);
+    ParticaoMED(Esq,Dir,&i,&j,array,p);
+    if(Esq<j){
+        MedianaDeTres(Esq,j,array);
+    }
+    if(i<Dir){
+        MedianaDeTres(i,Dir,array);
+    }
 }
-
-/*void MedianaDeCinco(int *array,int inicio, int fim, int *copias, int *comparacoes)
-{
-    int i,j;
-    int p=PivoMediana5(array,inicio,fim);
-    ParticaoMED(inicio,fim,&i,&j,array,p);
-    if(inicio<j)
-        quicksortMedianaDeCinco(array,inicio,j,copias,comparacoes,&i,&j,&p);
-    if(i<fim)
-        quicksortMedianaDeCinco(array,i,fim,copias,comparacoes,&i,&j,&p);
-}
-*/
