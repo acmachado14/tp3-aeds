@@ -3,7 +3,7 @@
   <br>
 </p>
 <div align=center>
-    <a href="#desc">Descrição</a> | <a href="#prerequisites">Pré Requisitos</a> | <a href="#running">Rodando</a> | <a href="#librariesFrameworks">Bibliotecas</a> | <a href="#contribuidores">Contribuidores</a> 
+    <a href="#desc">Descrição</a> | <a href="#prerequisites">Pré Requisitos</a> | <a href="#running">Rodando</a> | <a href="#librariesFrameworks">Bibliotecas</a> | <a href="#contribuidores">Contribuidores</a>
 </div>
 <br>
 <hr>
@@ -29,13 +29,8 @@ Basta ter algum compilador de C/C++ em sua máquina, sugestão: [C CompileRun](h
 Execute os seguintes comandos no terminal do projeto:
 
 ```
-make exec
-```
-No caso de sistemas Windows:
-
-```
-cd src 
-gcc main.c
+cd src
+gcc -o main.exe quickSortsAlgoritmos.c main.c
 ./a.exe
 ```
 - - - -

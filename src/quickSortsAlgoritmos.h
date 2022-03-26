@@ -35,16 +35,17 @@ int partitionDeTres(int array[], int inicio, int fim, int *copias, int *comparac
 //QuickSort Empilha
 void quickSortEmpilha(int array[], int low, int high,int *copias, int *comparacoes);
 
-int partitionDeCinco(int array[], int inicio, int fim);
-
+//Gera vetor com indeces aleatorios
 void geraMediana(int Vnumero[], int k, int inicio, int fim);
 
-void quickSortMedianaTeste(int array[], int inicio, int fim, int *copias, int *comparacoes);
+//Pivo Mediana
+int pivoMediana(int n1, int n2,int n3, int *copias, int *comparacoes);
 
-int PivoMediana(int n1, int n2,int n3, int *copias, int *comparacoes);
+//Particao da Mediana
+void particaoMediana(int inicio, int fim,int *i,int *j, int *array,int p, int *copias, int *comparacoes);
 
-void ParticaoMED(int inicio, int fim,int *i,int *j, int *array,int p, int *copias, int *comparacoes);
+//Pivo mediana de 5
+int pivoMedianaCinco(int *array, int inicio,int fim,int *copias, int *comparacoes);
 
-int PivoMediana5(int *array, int inicio,int fim,int *copias, int *comparacoes);
-
+//QuickSort Mediana de Cinco
 void quicksortMedianaDeCinco(int inicio, int fim,int *array,int *copias, int *comparacoes);

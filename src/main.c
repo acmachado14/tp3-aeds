@@ -38,13 +38,16 @@ int main( int argc, char * argv[] )
 
     clock_t t;
 
+    //Itoa nao é aceito em alguns ambientes, caso isso aconteca exclua a linha abaixo
+    //e a outra com um * na frente e descomente a debaixo
     itoa(tamanho,num,10);
 
     strcat(strcpy(buffer, str1), num);
 
     strcat(buffer, str3);
 
-    fpSaida = fopen(buffer,"w");
+    fpSaida = fopen(buffer,"w");//*
+    //fpSaida = fopen("seItoaNaoFuncionar.txt","w");
 
     randonArray(numeros,tamanho);
 

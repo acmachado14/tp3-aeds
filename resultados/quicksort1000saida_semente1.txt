@@ -1,0 +1,21 @@
+Algoritmo QuickSort 
+Tempo de Execucao: 0.000000 Numero de Copias: 6759 Numero de Comparacoes: 36662 
+--------------------------------------------------------------------------------------------------
+Algoritmo Iterative 
+Tempo de Execucao: 0.000000 Numero de Copias: 28374 Numero de Comparacoes: 15093 
+--------------------------------------------------------------------------------------------------
+Algoritmo Insercao 10 
+Tempo de Execucao: 0.000000 Numero de Copias: 20034 Numero de Comparacoes: 10423 
+--------------------------------------------------------------------------------------------------
+Algoritmo Insercao 100 
+Tempo de Execucao: 0.000000 Numero de Copias: 23704 Numero de Comparacoes: 21488 
+--------------------------------------------------------------------------------------------------
+Algoritmo Mediana de Tres 
+Tempo de Execucao: 0.000000 Numero de Copias: 29778 Numero de Comparacoes: 14810 
+--------------------------------------------------------------------------------------------------
+Algoritmo Mediana de Cinco 
+Tempo de Execucao: 0.000000 Numero de Copias: 9441 Numero de Comparacoes: 9451 
+--------------------------------------------------------------------------------------------------
+Algoritmo QuickSort Empilha 
+Tempo de Execucao: 0.000000 Numero de Copias: 28524 Numero de Comparacoes: 14233 
+--------------------------------------------------------------------------------------------------
