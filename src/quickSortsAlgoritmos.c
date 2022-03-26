@@ -272,8 +272,6 @@ void geraMediana(int Vnumero[], int k, int inicio, int fim){
     }
 }
 
-
-//-----Função para encontrar mediana com k=3-----//
 int PivoMediana(int n1, int n2,int n3, int *copias, int *comparacoes)
 {
     int a=n1,b=n2,c=n3;
@@ -281,97 +279,119 @@ int PivoMediana(int n1, int n2,int n3, int *copias, int *comparacoes)
     //array sequência de if...else verifica qual valor é menor que um e maior que outro
     if (a<b){
         (*comparacoes) ++;
-        if (b<c) //a < b && b < c
+        if (b<c)
             mediana=b;
         else{
             (*comparacoes) ++;
-            if (a<c) //a < c && c <= b
+            if (a<c)
                 mediana=c;
-            else //c <= a && a < b
+            else
                 mediana=a;
         }
     }
     else{
-        if (c<b) //c < b && b <= a
+        if (c<b)
             mediana=b;
         else {
-            if (c<a) //b <= c && c < a
+            if (c<a)
                 mediana=c;
-            else //b <= a && a <= c
+            else
                 mediana=a;
         }
     }
     return mediana;
 }
+int partitionDeCinco(int array[], int inicio, int fim) {
+    //encontrando a mediana de 5 elementos
 
-//-----Função para encontrar mediana com k=5-----//
-int PivoMediana5(int *array, int inicio,int fim)
-{
-    int n1=array[inicio], rep=(fim+1)/5;
-    int n2=array[inicio+rep],n3=array[inicio+(2*rep)],n4=array[inicio+(3*rep)],n5=array[inicio+(4*rep)];
-    int vet_aux[5]={n1,n2,n3,n4,n5};
-    int med;
-    //Usa o Shellsort para ordenar o vetor e escolhe a mediana
-    int aux, h=1;
-    do h=h*3+1;while(h<5);
-    do{
-        h=h/3;
-        for(int i=h;i<5;i++){
-            aux=vet_aux[i];
-            int j=i;
-            while(vet_aux[j-h]>aux){
-                vet_aux[j]=vet_aux[j-h];
-                j-=h;
-                if(j<h)break;
+    int medianaIndice;
+    int indice0 = inicio;
+    int indice1 = (fim-inicio)/4;
+    int indice2 = (fim-inicio)/2;
+    int indice3 = 3*(fim-inicio)/4;
+    int indice4 = fim;
+
+    int vetor[5] = {array[indice0], array[indice1], array[indice2], array[indice3], array[indice4]};
+    int indices[5] = {indice0, indice1, indice2, indice3, indice4};
+    int aux, auxInd;
+    for (int i = 0; i < 5; i++){
+        for (int j = 0; j < 4; j++){
+            if (vetor[j] > vetor[j + 1]) {
+                aux= vetor[j];
+                vetor[j]= vetor[j + 1];
+                vetor[j + 1] = aux;
+
+                auxInd= indices[j];
+                indices[j]= indices[j + 1];
+                indices[j + 1] = auxInd;
             }
-            vet_aux[j]=aux;
         }
-    }while(h!=1);
-    med=vet_aux[2];
+    }
+}
+//-----Função para encontrar mediana com k=5-----//
+int PivoMediana5(int *array, int inicio,int fim, int *copias, int *comparacoes)
+{
+    int indices[5];
+    geraMediana(indices, 5, inicio, fim);
+
+    int indice0 = indices[0];
+    int indice1 = indices[1];
+    int indice2 = indices[2];
+    int indice3 = indices[3];
+    int indice4 = indices[4];
+
+    int vetor[5] = {array[indice0],array[indice1],array[indice2],array[indice3],array[indice4]};
+
+    for (int i = 0; i < 5; i++){
+        for (int j = 0; j < 4; j++){
+            (*comparacoes)++;
+            if (vetor[j] > vetor[j + 1]) {
+                swap(&vetor[j], &vetor[j + 1]);
+                swap(&indices[j], &indices[j + 1]);
+                (*copias) += 6;
+            }
+        }
+    }
+
+    int med;
+    med = indices[2];
     return med;
 }
 
-void ParticaoMED(int inicio, int fim,int *i,int *j, int *array,int p)
+void ParticaoMED(int inicio, int fim,int *i,int *j, int *array,int p,int *copias, int *comparacoes)
 {
     int pivo,aux;
     *i=inicio,*j=fim;
     pivo=p;
-    do{
-        while(pivo>array[*i])
+    while(*i<=*j){
+        while(pivo>array[*i]){
+            (*comparacoes) ++;
             (*i)++;
-        while(pivo<array[*j])
+        }
+        while(pivo<array[*j]){
+            (*comparacoes) ++;
             (*j)--;
+        }
         if(*i<=*j){
-            aux=array[*i];
-            array[*i]=array[*j];
-            array[*j]=aux;
+            swap(&array[*i],&array[*j]);
+            (*copias) += 3;
             (*i)++;
             (*j)--;
         }
+        (*comparacoes) ++;
     }
-    while(*i<=*j);
 }
 
-void MedianaDeTres(int inicio, int fim,int *array)
+void quicksortMedianaDeCinco(int inicio, int fim,int *array,int *copias, int *comparacoes)
 {
     int i,j,meio=fim/2;
-    int p=PivoMediana(array[inicio],array[meio],array[fim]);
-    ParticaoMED(inicio,fim,&i,&j,array,p);
-    if(inicio<j)
-        MedianaDeTres(inicio,j,array);
-    if(i<fim)
-        MedianaDeTres(i,fim,array);
-}
-
-void MedianaDeCinco(int inicio, int fim,int *array)
-{
-    int i,j;
-    int p=PivoMediana5(array,inicio,fim);
-    ParticaoMED(inicio,fim,&i,&j,array,p);
+    int p=PivoMediana(array[inicio],array[meio],array[fim],copias,comparacoes);
+    ParticaoMED(inicio,fim,&i,&j,array,p,copias,comparacoes);
     if(inicio<j){
-        MedianaDeTres(inicio,j,array);
+        quicksortMedianaDeCinco(inicio,j,array,copias,comparacoes);
     }
     if(i<fim){
-        MedianaDeTres(i,fim,array);
+        quicksortMedianaDeCinco(i,fim,array,copias,comparacoes);
     }
+    (*comparacoes) += 2;
 }
